@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# Ingest green trip data
+
 import os
 import argparse
 
@@ -23,7 +25,7 @@ def main(params):
 
     engine = create_engine(f'postgresql://{user}:{password}@{host}:{port}/{db}')
 
-    os.system("wget https://d37ci6vzurychx.cloudfront.net/misc/taxi+_zone_lookup.csv -O taxi+_zone_lookup.csv")
+    os.system("wget https://s3.amazonaws.com/nyc-tlc/misc/taxi+_zone_lookup.csv -O taxi+_zone_lookup.csv")
     df_zones = pd.read_csv('taxi+_zone_lookup.csv')
     df_zones.to_sql(name='zones', con=engine, if_exists='replace')
 
@@ -31,8 +33,8 @@ def main(params):
 
     df = next(df_iter)
 
-    df.tpep_pickup_datetime = pd.to_datetime(df.tpep_pickup_datetime)
-    df.tpep_dropoff_datetime = pd.to_datetime(df.tpep_dropoff_datetime)
+    df.lpep_pickup_datetime = pd.to_datetime(df.lpep_pickup_datetime)
+    df.lpep_pickup_datetime = pd.to_datetime(df.lpep_pickup_datetime)
 
     df.head(n=0).to_sql(name=table_name, con=engine, if_exists='replace')
 
@@ -43,8 +45,8 @@ def main(params):
         
         df = next(df_iter)
         
-        df.tpep_pickup_datetime = pd.to_datetime(df.tpep_pickup_datetime)
-        df.tpep_dropoff_datetime = pd.to_datetime(df.tpep_dropoff_datetime)
+        df.lpep_pickup_datetime = pd.to_datetime(df.lpep_pickup_datetime)
+        df.lpep_dropoff_datetime = pd.to_datetime(df.lpep_dropoff_datetime)
 
         df.to_sql(name=table_name, con=engine, if_exists='append')
         
@@ -70,5 +72,3 @@ if __name__ == '__main__':
     args = parser.parse_args()
         #(params) -> NoReturn   
     main(args)
-
-
