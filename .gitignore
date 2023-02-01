@@ -8,4 +8,4 @@ week_1_basics_n_setup/2_docker_sql/.ipynb_checkpoints/*
 
 week_1_basics_n_setup/1_gcp_terraform/.terraform
 week_1_basics_n_setup/1_gcp_terraform/.terraform*
-week_1_basics_n_setup/1_gcp_terraform/terraform_tfstate
+week_1_basics_n_setup/1_gcp_terraform/terraform.tfstate
