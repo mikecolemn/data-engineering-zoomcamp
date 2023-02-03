@@ -6,7 +6,8 @@ from random import randint
 from prefect.tasks import task_input_hash
 from datetime import timedelta
 
-@task(retries=3, cache_key_fn=task_input_hash, cache_expiration=timedelta(days=1))
+#, cache_key_fn=task_input_hash, cache_expiration=timedelta(days=1)
+@task(retries=3)
 def fetch(dataset_url: str) -> pd.DataFrame:
     """Read taxi data from web into pandas DataFrame"""
     #if randint(0,1) > 0:
@@ -55,13 +56,13 @@ def etl_web_to_gcs(color: str, year: int, month: int) -> None:
     write_gcs(path)
 
 @flow()
-def etl_parent_flow(   
+def etl_parent_flow(
+    # includes default values
     months: list[int] = [1, 2], year: int = 2021, color: str = "yellow"
 ):
 
     for month in months:
         etl_web_to_gcs(color, year, month)
-
 
 if __name__ == '__main__':
     color = "yellow"
