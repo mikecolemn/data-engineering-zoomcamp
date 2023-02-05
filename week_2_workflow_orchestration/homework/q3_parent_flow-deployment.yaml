@@ -1,0 +1,59 @@
+###
+### A complete description of a Prefect Deployment for flow 'q3-parent-flow'
+###
+name: q3-deployment
+description: null
+version: 567804e9c07d9e2e50a4f0f3930ee1ac
+# The work queue that will handle this deployment's runs
+work_queue_name: default
+tags: []
+parameters: {"months": [9,10], "color": "green", "year": 2014}
+schedule: null
+infra_overrides: {}
+
+###
+### DO NOT EDIT BELOW THIS LINE
+###
+flow_name: q3-parent-flow
+manifest_path: null
+infrastructure:
+  type: process
+  env: {}
+  labels: {}
+  name: null
+  command: null
+  stream_output: true
+  working_dir: null
+  _block_document_id: 34b24304-00bb-44c4-bca5-1bc9da61cb22
+  _block_document_name: anonymous-510cf148-390e-4c7b-9a39-71092f417abf
+  _is_anonymous: true
+  block_type_slug: process
+  _block_type_slug: process
+storage: null
+path: /home/udengine/git/data-engineering-zoomcamp/week_2_workflow_orchestration/homework
+entrypoint: etl_gcs_to_bq_me_q3.py:q3_parent_flow
+parameter_openapi_schema:
+  title: Parameters
+  type: object
+  properties:
+    months:
+      title: months
+      default:
+      - 2
+      - 3
+      position: 0
+      type: array
+      items:
+        type: integer
+    year:
+      title: year
+      default: 2019
+      position: 1
+      type: integer
+    color:
+      title: color
+      default: yellow
+      position: 2
+      type: string
+  required: null
+  definitions: null
