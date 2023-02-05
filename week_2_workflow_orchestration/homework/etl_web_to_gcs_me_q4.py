@@ -18,8 +18,8 @@ def clean(df = pd.DataFrame) -> pd.DataFrame:
     """Fix some dtype issues"""
     df['lpep_pickup_datetime'] = pd.to_datetime(df['lpep_pickup_datetime'])
     df['lpep_dropoff_datetime'] = pd.to_datetime(df['lpep_dropoff_datetime'])
-    print(df.head(2))
-    print(f"columns: {df.dtypes}")
+    #print(df.head(2))
+    #print(f"columns: {df.dtypes}")
     print(f"rows: {len(df)}")
     return df
 
@@ -39,7 +39,7 @@ def write_gcs(path: Path) -> None:
 
 
 @flow()
-def etl_web_to_gcs_q4() -> None:
+def etl_web_to_gcs_q4(months: list[int] = [1, 2], year: int = 2021, color: str = "yellow") -> None:
     """The main ETL function"""
     color = "green"
     year = 2020
@@ -52,6 +52,17 @@ def etl_web_to_gcs_q4() -> None:
     path = write_local(df_clean, color, dataset_file)
     write_gcs(path)
 
+@flow()
+def etl_parent_flow_q4(
+    # includes default values
+    months: list[int] = [1, 2], year: int = 2021, color: str = "yellow"
+):
+
+    for month in months:
+        etl_web_to_gcs_q4(color, year, month)
 
 if __name__ == "__main__":
-    etl_web_to_gcs_q4()
+    color = "green"
+    months = 11
+    year = 2020
+    etl_parent_flow_q4(months, year, color)

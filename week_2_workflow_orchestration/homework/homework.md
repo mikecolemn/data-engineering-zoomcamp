@@ -29,3 +29,10 @@ prefect deployment run q3-parent-flow/q3-deployment -p "months=[2,3]" -p "color=
 ```
 
 `20:55:00.273 | INFO    | Flow run 'defiant-shrew' - Total rows loaded: 14851920`
+
+
+* Question 4
+
+Answer: `88605`
+
+`08:50:39.243 | INFO    | Task run 'clean-2c6af9f6-0' - rows: 88605`
