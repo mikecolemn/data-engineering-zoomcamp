@@ -295,3 +295,15 @@ I should investigate the one above further
 Ran into some timeout issues at first.  Had to bump up the timeout of the upload to GCS to 120 seconds (eventually 180 worked).  This might be worth looking at further, for future customization: https://github.com/googleapis/python-storage/issues/74
 
 Also the fetch task started to get killed by the VM.  Only had 8 gigs of RAM allocated, and upgraded it to 16 gigs to resolve
+
+
+* Question 5
+
+Ended up setting up my own slack workspace
+Had to add an app for Incoming Webhooks and then just grabbed the webhooks URL for it
+
+
+* Question 6
+
+UI > Blocks > Secret, created it with a 10 digit value, saved, and then looked at it for the value displayed
+
