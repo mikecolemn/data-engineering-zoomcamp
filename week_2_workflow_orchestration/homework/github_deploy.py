@@ -6,7 +6,7 @@ github_block = GitHub.load("gh-zoomcamp")
 
 github_dep = Deployment.build_from_flow(
     flow=etl_web_to_gcs_q4,
-    name='docker-flow',
+    name='github-flow',
 )
 
 if __name__  == "__main__":
