@@ -7,8 +7,8 @@ week_1_basics_n_setup/2_docker_sql/.ipynb_checkpoints/*
 
 *.json
 
-*/.terraform
-*/.terraform*
-*/terraform.tfstat*
+*.terraform
+*.terraform*
+*terraform.tfstat*
 
 __pycache__/
