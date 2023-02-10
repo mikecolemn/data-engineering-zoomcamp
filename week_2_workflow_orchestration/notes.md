@@ -287,6 +287,8 @@ Had to check the prefect repo for an updated Dockerfile, which made the folder f
 I should investigate the one above further
 
 
+Had to run `prefect block register -m prefect_gcp` while trying to use the cloud, to get GCS Bucket block registered, for me to set it up
+
 
 # Homework
 
