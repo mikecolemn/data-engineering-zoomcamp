@@ -105,3 +105,4 @@ Answer: `GCP Bucket`
 
 ## Question 7
 
+Answer: `True`
