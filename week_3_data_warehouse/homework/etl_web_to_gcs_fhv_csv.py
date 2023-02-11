@@ -1,5 +1,5 @@
-import os
 from pathlib import Path
+import os
 from prefect import flow, task
 from prefect_gcp.cloud_storage import GcsBucket
 
@@ -8,9 +8,8 @@ from prefect_gcp.cloud_storage import GcsBucket
 def retrieve_file(dataset_url: str, color:str, dataset_file: str) -> Path:
     """Retrieve data files from github repo"""
     
-    # print(os.system("pwd"))
     os.system(f"wget {dataset_url} -O week_3_data_warehouse/homework/data/{color}/{dataset_file}")
-    file_path = Path(f"week_3_data_warehouse/homework//data/{color}/{dataset_file}")
+    file_path = Path(f"data/{color}/{dataset_file}")
 
     return file_path
 
@@ -18,7 +17,7 @@ def retrieve_file(dataset_url: str, color:str, dataset_file: str) -> Path:
 def upload_gcs(path: Path, color: str) -> None:
     """Upload csv.gz file to GCS"""
     gcs_block = GcsBucket.load("gcs-extended-signal")
-    gcs_block.upload_from_path(from_path=f"{path}",to_path=path, timeout=180)
+    gcs_block.upload_from_path(from_path=f"week_3_data_warehouse/homework/{path}",to_path=path, timeout=180)
     return
 
 
