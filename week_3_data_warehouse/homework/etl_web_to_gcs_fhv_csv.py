@@ -8,6 +8,7 @@ from prefect_gcp.cloud_storage import GcsBucket
 def retrieve_file(dataset_url: str, color:str, dataset_file: str) -> Path:
     """Retrieve data files from github repo"""
     os.system(f"wget {dataset_url} -O data/{color}/{dataset_file}")
+    print(os.system("pwd"))
     file_path = Path(f"data/{color}/{dataset_file}")
 
     return file_path
