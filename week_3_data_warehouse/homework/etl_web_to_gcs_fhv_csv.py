@@ -9,8 +9,8 @@ def retrieve_file(dataset_url: str, color:str, dataset_file: str) -> Path:
     """Retrieve data files from github repo"""
     
     # print(os.system("pwd"))
-    os.system(f"wget {dataset_url} -O data/{color}/{dataset_file}")
-    file_path = Path(f"data/{color}/{dataset_file}")
+    os.system(f"wget {dataset_url} -O week_3_data_warehouse/homework/data/{color}/{dataset_file}")
+    file_path = Path(f"week_3_data_warehouse/homework//data/{color}/{dataset_file}")
 
     return file_path
 
