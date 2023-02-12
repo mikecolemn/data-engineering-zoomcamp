@@ -53,11 +53,13 @@ Can create `external table` from data from buckets.  Looks like a SQL script, ca
 
 In BigQuery, if you look at the details of an External Table, it won't be able to show size or rows, becuase the data is really still stored in your GCS bucket
 
+```
 CREATE OR REPLACE EXTERNAL TABLE `nytaxi.external_yellow_tripdata`
 OPTIONS (
   format = 'PARQUET',
   uris = ['gs://dtc_data_lake_extended-signal-376421/data/yellow/yellow_tripdata_2019-*.parquet', 'gs://dtc_data_lake_extended-signal-376421/data/yellow/yellow_tripdata_2020-*.parquet']
 );
+```
 
 Had issues creating the external table above at first.  Issues was with data types varying in the parquet files loaded.  Had to re-process them, specifying specific dtypes for the pandas dataframes when I processed them.  Once all the data types were consistent across files, the external table creation process succeeded
 
