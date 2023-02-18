@@ -9,78 +9,14 @@ from datetime import timedelta
 
 #, cache_key_fn=task_input_hash, cache_expiration=timedelta(minutes=10)
 @task(retries=2)
-def fetch(dataset_url: str, color: str) -> pd.DataFrame:
+def fetch(dataset_url: str) -> pd.DataFrame:
     """Read taxi data from web into pandas DataFrame"""
     #if randint(0,1) > 0:
     #    raise Exception
 
-    if color == 'yellow':
-        df = pd.read_csv(
-                        dataset_url,
-                        dtype = {
-                            'VendorID': float,
-                            'tpep_pickup_datetime': str,
-                            'tpep_dropoff_datetime': str,
-                            'passenger_count': float,
-                            'trip_distance': float,
-                            'PULocationID': int,
-                            'DOLocationID': int,
-                            'RatecodeID': float,
-                            'store_and_fwd_flag': str,
-                            'payment_type': float,
-                            'fare_amount': float,
-                            'extra': float,
-                            'mta_tax': float,
-                            'improvement_surcharge': float,
-                            'tip_amount': float,
-                            'tolls_amount': float,
-                            'total_amount': float,
-                            'aongestion_surcharge': float,
-                            'airport_fee': float
-                            }
-                        )
-    elif color == 'green':
-        df = pd.read_csv(
-                        dataset_url,
-                        dtype = {
-                            'VendorID': float,
-                            'lpep_pickup_datetime': str,
-                            'lpep_dropoff_datetime': str,
-                            'passenger_count': float,
-                            'trip_distance': float,
-                            'PULocationID': int,
-                            'DOLocationID': int,
-                            'RatecodeID': float,
-                            'store_and_fwd_flag': str,
-                            'payment_type': float,
-                            'fare_amount': float,
-                            'extra': float,
-                            'mta_tax': float,
-                            'improvement_surcharge': float,
-                            'tip_amount': float,
-                            'tolls_amount': float,
-                            'total_amount': float,
-                            'aongestion_surcharge': float,
-                            'airport_fee': float
-                            }
-                        )    
-    elif color == 'fhv':
-        df = pd.read_csv(
-                        dataset_url,
-                        dtype = {
-                            'dispatching_base_num': str,
-                            'pickup_datetime': str,
-                            'dropOff_datetime': str,
-                            'PULocationID': int,
-                            'DOLocationID': int,
-                            'SR_Flag': int,
-                            'Affiliated_base_number': str
-                            }
-                        )    
+    df = pd.read_csv(dataset_url,encoding='latin1')
 
-    # print(df)
-    print(f"columns: {df.dtypes}")
-    print(f"rows: {len(df)}")
+    # print(df.dtypes)
 
     return df
 
@@ -88,19 +24,70 @@ def fetch(dataset_url: str, color: str) -> pd.DataFrame:
 def clean(df: pd.DataFrame, color: str) -> pd.DataFrame:
     """Fix some dtype issues"""
     if color == 'yellow':
-        df['tpep_pickup_datetime'] = pd.to_datetime(df['tpep_pickup_datetime'])
-        df['tpep_dropoff_datetime'] = pd.to_datetime(df['tpep_dropoff_datetime'])
+        df = df.astype({
+                    'VendorID': 'Int64',
+                    'tpep_pickup_datetime': 'datetime64',
+                    'tpep_dropoff_datetime': 'datetime64',
+                    'passenger_count': 'Int64',
+                    'trip_distance': 'float64',
+                    'RatecodeID': 'Int64',
+                    'store_and_fwd_flag': 'object',
+                    'PULocationID': 'Int64',
+                    'DOLocationID': 'Int64',
+                    'payment_type': 'Int64',
+                    'fare_amount': 'float64',
+                    'extra': 'float64',
+                    'mta_tax': 'float64',
+                    'tip_amount': 'float64',
+                    'tolls_amount': 'float64',
+                    'improvement_surcharge': 'float64',
+                    'total_amount': 'float64',
+                    'congestion_surcharge': 'float64'
+                    })
     elif color == 'green':
-        df['lpep_pickup_datetime'] = pd.to_datetime(df['lpep_pickup_datetime'])
-        df['lpep_dropoff_datetime'] = pd.to_datetime(df['lpep_dropoff_datetime'])
+        df = df.astype({
+                    'VendorID': 'Int64',
+                    'lpep_pickup_datetime': 'datetime64',
+                    'lpep_dropoff_datetime': 'datetime64',
+                    'store_and_fwd_flag': 'object',
+                    'RatecodeID': 'Int64',
+                    'PULocationID':'Int64',
+                    'DOLocationID': 'Int64',
+                    'passenger_count': 'Int64',
+                    'trip_distance': 'float64',
+                    'fare_amount': 'float64',
+                    'extra': 'float64',
+                    'mta_tax': 'float64',
+                    'tip_amount': 'float64',
+                    'tolls_amount': 'float64',
+                    'ehail_fee': 'float64',
+                    'improvement_surcharge': 'float64',
+                    'total_amount': 'float64',
+                    'payment_type': 'Int64',
+                    'trip_type': 'Int64',
+                    'congestion_surcharge': 'float64'
+                    })
     elif color == 'fhv':
-        df['pickup_datetime'] = pd.to_datetime(df['pickup_datetime'])
-        df['dropOff_datetime'] = pd.to_datetime(df['dropOff_datetime'])
+        df.rename(columns= {
+                            'dropoff_datetime': 'dropOff_datetime',
+                            'PULocationID': 'PUlocationID',
+                            'DOLocationID': 'DOlocationID'
+                            }, inplace=True)
+        df = df.astype({
+                    'dispatching_base_num': 'object',
+                    'pickup_datetime': 'datetime64',
+                    'dropOff_datetime': 'datetime64',
+                    'PUlocationID': 'Int64',
+                    'DOlocationID': 'Int64',
+                    'SR_Flag': 'Int64',
+                    'Affiliated_base_number': 'object'
+                    })
 
     # df['RatecodeID'] = pd.to_numeric(df['RatecodeID'], downcast='float64', errors='coerce')
-    #print(df.head(2))
-    #print(f"columns: {df.dtypes}")
-    #print(f"rows: {len(df)}")
+    # print(df.head(2))
+    # print(df)
+    print(f"columns: {df.dtypes}")
+    # print(f"rows: {len(df)}")
     return df
 
 @task(name="SaveLocally")
@@ -127,7 +114,7 @@ def etl_web_to_gcs(color: str, year: int, month: int) -> None:
     dataset_file = f"{color}_tripdata_{year}-{month:02}"
     dataset_url = f"https://github.com/DataTalksClub/nyc-tlc-data/releases/download/{color}/{dataset_file}.csv.gz"
 
-    df = fetch(dataset_url, color)
+    df = fetch(dataset_url)
     df_clean = clean(df, color)
     path = write_local(df_clean, color, dataset_file)
     write_gcs(path)
@@ -138,14 +125,13 @@ def etl_parent_flow(
     # includes default values
     months: list[int] = [1, 2], year: int = 2021, color: str = "yellow"
 ):
-
     for month in months:
         etl_web_to_gcs(color, year, month)
 
 if __name__ == '__main__':
     color = "yellow"
-    months = [1,2,3,4,5,6,7,8,9,10,11,12]
-    # months = [9,10,11,12]
-    year = 2020
+    # months = [1,2,3,4,5,6,7,8,9,10,11,12]
+    months = [5]
+    year = 2019
     etl_parent_flow(months, year, color)
     
