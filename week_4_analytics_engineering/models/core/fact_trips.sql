@@ -4,12 +4,14 @@ with green_data as (
     select *, 
         'Green' as service_type 
     from {{ ref('staging_green_tripdata') }}
+    where EXTRACT(year from pickup_datetime) IN (2019,2020)
 ), 
 
 yellow_data as (
     select *, 
         'Yellow' as service_type
     from {{ ref('staging_yellow_tripdata') }}
+    where EXTRACT(year from pickup_datetime) IN (2019,2020)
 ), 
 
 trips_unioned as (
