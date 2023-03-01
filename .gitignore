@@ -2,9 +2,10 @@
 *.parquet
 *.crc
 *_SUCCESS
+*.jar
 
 week_1_basics_n_setup/2_docker_sql/data
-*/.ipynb_checkpoints
+*.ipynb_checkpoints*
 
 *.json
 
