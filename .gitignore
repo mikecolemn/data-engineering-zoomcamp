@@ -1,8 +1,10 @@
 *.csv.gz
 *.parquet
+*.crc
+*_SUCCESS
 
 week_1_basics_n_setup/2_docker_sql/data
-*/.ipynb_checkpoints/*
+*/.ipynb_checkpoints
 
 *.json
 
