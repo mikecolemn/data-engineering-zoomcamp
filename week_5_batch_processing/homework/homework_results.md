@@ -31,9 +31,45 @@ Type --help for more information.
 
 Answer: `24MB`
 
+```
+-rw-r--r-- 1 udengine udengine 24M Feb 28 21:10 part-00000-eaf0396e-7c3b-43cc-a672-4fb3644d28ed-c000.snappy.parquet
+-rw-r--r-- 1 udengine udengine 24M Feb 28 21:10 part-00001-eaf0396e-7c3b-43cc-a672-4fb3644d28ed-c000.snappy.parquet
+-rw-r--r-- 1 udengine udengine 24M Feb 28 21:10 part-00002-eaf0396e-7c3b-43cc-a672-4fb3644d28ed-c000.snappy.parquet
+-rw-r--r-- 1 udengine udengine 24M Feb 28 21:10 part-00003-eaf0396e-7c3b-43cc-a672-4fb3644d28ed-c000.snappy.parquet
+-rw-r--r-- 1 udengine udengine 24M Feb 28 21:10 part-00004-eaf0396e-7c3b-43cc-a672-4fb3644d28ed-c000.snappy.parquet
+-rw-r--r-- 1 udengine udengine 24M Feb 28 21:10 part-00005-eaf0396e-7c3b-43cc-a672-4fb3644d28ed-c000.snappy.parquet
+-rw-r--r-- 1 udengine udengine 24M Feb 28 21:10 part-00006-eaf0396e-7c3b-43cc-a672-4fb3644d28ed-c000.snappy.parquet
+-rw-r--r-- 1 udengine udengine 24M Feb 28 21:10 part-00007-eaf0396e-7c3b-43cc-a672-4fb3644d28ed-c000.snappy.parquet
+-rw-r--r-- 1 udengine udengine 24M Feb 28 21:10 part-00008-eaf0396e-7c3b-43cc-a672-4fb3644d28ed-c000.snappy.parquet
+-rw-r--r-- 1 udengine udengine 24M Feb 28 21:10 part-00009-eaf0396e-7c3b-43cc-a672-4fb3644d28ed-c000.snappy.parquet
+-rw-r--r-- 1 udengine udengine 24M Feb 28 21:10 part-00010-eaf0396e-7c3b-43cc-a672-4fb3644d28ed-c000.snappy.parquet
+-rw-r--r-- 1 udengine udengine 24M Feb 28 21:10 part-00011-eaf0396e-7c3b-43cc-a672-4fb3644d28ed-c000.snappy.parquet
+-rw-r--r-- 1 udengine udengine   0 Feb 28 21:10 _SUCCESS
+```
+
+
 # Question 3:
 
 Answer: `452,470`
+
+Script/code:
+```
+spark.sql("""
+SELECT CAST(pickup_datetime as date) as pickup_datetime, count(1) as pickup_count
+FROM fhvhv
+WHERE CAST(pickup_datetime as date) = '2021-06-15'
+GROUP BY CAST(pickup_datetime as date)
+""").show()
+```
+
+Results:
+```
++---------------+------------+
+|pickup_datetime|pickup_count|
++---------------+------------+
+|     2021-06-15|      452470|
++---------------+------------+
+```
 
 # Question 4:
 
