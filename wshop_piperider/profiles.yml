@@ -1,0 +1,11 @@
+
+bigquery-db:
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      method: service-account
+      project: extended-signal-376421
+      dataset: dbt_mikecolemn
+      threads: 1
+      keyfile: /home/udengine/.gc/extended-signal.json
